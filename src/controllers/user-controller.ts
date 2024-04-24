@@ -5,6 +5,7 @@ import {AppDataSource} from "../data-source";
 import {randomUUID} from "crypto";
 import crypto from "crypto";
 import * as jwt from "jsonwebtoken"
+import {hasSubscribers} from "diagnostics_channel";
 
 export class UserController {
 
@@ -32,7 +33,7 @@ export class UserController {
             password: hashedPassword,
         })
 
-        const token = jwt.sign({id}, process.env.JWT_SECRET_KEY)
+        const token = jwt.sign({id}, "TEST")
         response.json({
             token,
             user: {
@@ -45,6 +46,36 @@ export class UserController {
     }
 
     public async login(request: Request, response: Response){
+
+        const hashedPassword = crypto.createHash('md5').update(request.body.password).digest('hex');
+        const user = await this.userRepository.findOneBy({email: request.body.email})
+
+        if(!user){
+            response.status(404).json({
+                error: "The email entered is not registered in the system!!!!"
+            })
+            return;
+        }
+
+        if( user.password !== hashedPassword){
+            response.status(400).json({
+                error: "Credentials don't match!"
+            })
+            return;
+        }
+
+        const token = jwt.sign({id:user.id}, "TEST")
+
+        response.json({
+            token,
+            user: {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+            }
+        })
+
 
     }
 }
