@@ -9,6 +9,9 @@ export class Cart{
     @Column()
     status: number
 
+    @Column()
+    userId: string
+
     @CreateDateColumn()
     createdAt: Date
 

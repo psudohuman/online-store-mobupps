@@ -7,6 +7,12 @@ export class OrderLineItem{
     id: string
 
     @Column()
+    orderId: string
+
+    @Column()
+    productId: string
+
+    @Column()
     quantity: number
 
     @Column()

@@ -10,6 +10,9 @@ export class Product{
     name: string
 
     @Column()
+    userId: string
+
+    @Column()
     description: string
 
     @Column()
