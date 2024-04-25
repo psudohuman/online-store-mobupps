@@ -33,7 +33,7 @@ export class UserController {
             password: hashedPassword,
         })
 
-        const token = jwt.sign({id}, "TEST")
+        const token = jwt.sign({id}, process.env.JWT_SECRET_KEY)
         response.json({
             token,
             user: {
@@ -64,7 +64,7 @@ export class UserController {
             return;
         }
 
-        const token = jwt.sign({id:user.id}, "TEST")
+        const token = jwt.sign({id:user.id}, process.env.JWT_SECRET_KEY)
 
         response.json({
             token,
