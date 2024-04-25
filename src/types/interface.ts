@@ -5,8 +5,7 @@ export interface IUser {
     lastName: string;
     id: string;
     email: string;
-    username: string;
-    pictureUrl: string | null;
+    password: string;
 }
 
 export interface IAuthenticatedRequest extends Request {
